@@ -1,2 +1,1 @@
-# rest-api-stores
-REST API for stores using Flask-RESTful and SQLAlchemy
+# Stores REST API using Flask and Postgresql
