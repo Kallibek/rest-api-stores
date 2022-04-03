@@ -62,10 +62,12 @@ class Item(Resource):
         else:
             item.price = data['price']
             item.description = data['description']
-
-        item.save_to_db()
-
-        return item.json()
+        try:
+            item.save_to_db()
+            return item.json()
+        except Exception as e:
+            return {"message":str(e)}
+        
 
 
 class ItemList(Resource):

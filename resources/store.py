@@ -66,8 +66,8 @@ class Store(Resource):
         try:
             store.save_to_db()
             return store.json(), 201
-        except:
-            return {"message": "An error occurred creating/editing the store."}, 500
+        except Exception as e:
+            return {"message": str(e)}, 500
 
 def delete(self):
         data = Store.parser.parse_args()
