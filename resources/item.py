@@ -72,17 +72,4 @@ class Item(Resource):
 
 class ItemList(Resource):
     def get(self):
-        parser = reqparse.RequestParser()
-        parser.add_argument('store_id',
-        type=int,
-        required=True,
-        help="Every item needs a store id."
-    )
-        data = parser.parse_args()
-        if data['store_id']:
-            return {
-                'store_id':data['store_id'],
-                'items': [item.json() for item in ItemModel.query.filter_by(store_id=data['store_id']).all()]
-                }
-        else:
-            return {'items': [x.json() for x in ItemModel.query.all()]}
+        return {'items': [item.json() for item in ItemModel.query.all()]}
