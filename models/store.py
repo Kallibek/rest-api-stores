@@ -5,18 +5,29 @@ class StoreModel(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(80))
-
+    address = db.Column(db.String(80),default='No address info')
     items = db.relationship('ItemModel', lazy='dynamic')
 
-    def __init__(self, name):
+    def __init__(self,name,address,id=None):
+        self.id = id
         self.name = name
+        self.address = address
 
     def json(self):
-        return {'name': self.name, 'items': [item.json() for item in self.items.all()]}
+        return {
+            'id':self.id,
+            'name': self.name,
+            'address':self.address,
+            'items': [item.json() for item in self.items.all()]
+            }
 
     @classmethod
     def find_by_name(cls, name):
         return cls.query.filter_by(name=name).first()
+    
+    @classmethod
+    def find_by_id(cls, _id):
+        return cls.query.filter_by(id=_id).first()
 
     def save_to_db(self):
         db.session.add(self)
