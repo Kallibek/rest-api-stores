@@ -13,7 +13,7 @@ app = Flask(__name__)
 
 app.config['DEBUG'] = True
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://emveicbdqgpuhb:471dc3d3eb6bf0fe4a75579d76e411a90403c679cf89a28df173b2f90c102fef@ec2-18-214-134-226.compute-1.amazonaws.com:5432/d2a0ku8vsbv2dm' #'sqlite:///data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///data.db').replace('postgres:','postgresql:')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.secret_key = 'kallibek'
 api = Api(app)
