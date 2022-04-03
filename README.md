@@ -12,7 +12,7 @@ The API developed in this project allows making CRUD operations on stores and it
 
 All CRUD endpoints require a JSON Web Token (JWT) which can be obtained upon signing up ("/register") and authorization ("/Auth")
 
-# Database and Data modeling
+# Database and data modeling
 
 The database resides on Managed PostgreSQL from Heroku
 
