@@ -31,6 +31,7 @@ class Item(Resource):
             return item.json()
         return {'message': f"{data['name']} not found in the store with id {data['store_id']}"}, 404
 
+    @jwt_required()
     def post(self):
         data = Item.parser.parse_args()
         if ItemModel.find_by_name_and_store(data['name'],data['store_id']):
@@ -45,6 +46,7 @@ class Item(Resource):
 
         return item.json(), 201
 
+    @jwt_required()
     def delete(self):
         data = Item.parser.parse_args()
         item = ItemModel.find_by_name_and_store(data['name'],data['store_id'])
@@ -52,6 +54,7 @@ class Item(Resource):
             item.delete_from_db()
         return {'message': f"{data['name']} deleted from the store with id {data['store_id']}"}
 
+    @jwt_required()
     def put(self):
         data = Item.parser.parse_args()
 
@@ -71,5 +74,6 @@ class Item(Resource):
 
 
 class ItemList(Resource):
+    @jwt_required()
     def get(self):
         return {'items': [item.json() for item in ItemModel.query.all()]}

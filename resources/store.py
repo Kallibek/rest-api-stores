@@ -1,5 +1,6 @@
 from flask_restful import Resource, reqparse
 from models.store import StoreModel
+from flask_jwt import jwt_required
 
 class Store(Resource):
     parser = reqparse.RequestParser()
@@ -18,6 +19,8 @@ class Store(Resource):
         required=False,
         #help="address is optional"
     )
+
+    @jwt_required()
     def get(self):
         data = Store.parser.parse_args()
         if store:=StoreModel.find_by_id(data['id']):
@@ -27,6 +30,7 @@ class Store(Resource):
         else:
             return {'message': 'Store not found'}, 404
 
+    @jwt_required()
     def post(self):
         data = Store.parser.parse_args()
         # check if name is valid
@@ -48,7 +52,7 @@ class Store(Resource):
             except Exception as e:
                 return {"message": str(e)}, 500
             
-            
+    @jwt_required()        
     def put(self):
         data = Store.parser.parse_args()
         if store:=StoreModel.find_by_id(data['id']):
@@ -68,8 +72,8 @@ class Store(Resource):
             return store.json(), 201
         except Exception as e:
             return {"message": str(e)}, 500
-
-def delete(self):
+    @jwt_required()
+    def delete(self):
         data = Store.parser.parse_args()
         if store:=StoreModel.find_by_name(data['name']):
             store.delete_from_db()
@@ -81,5 +85,6 @@ def delete(self):
         return {'message': 'Store deleted'}
 
 class StoreList(Resource):
+    @jwt_required()
     def get(self):
         return {'stores': [store.json() for store in StoreModel.query.all()]}
